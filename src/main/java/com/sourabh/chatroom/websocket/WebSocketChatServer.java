@@ -27,7 +27,7 @@ public class WebSocketChatServer {
         onlineSessions.forEach((userKey, sessionVal) -> {
 
             try {
-                sessionVal.getBasicRemote().sendText(message); //send message to that session, synchronously
+                sessionVal.getBasicRemote().sendText(message); //send message through that session, synchronously
             } catch (IOException e) {
                 e.printStackTrace();
             }

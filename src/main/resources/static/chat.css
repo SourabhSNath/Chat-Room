@@ -52,20 +52,33 @@ body {
     cursor: pointer;
 }
 
+/* Flex to place them side by side */
+
+.body-container {
+    display: flex;
+    flex-direction: row-reverse;
+    box-sizing: border-box;
+    height: 80%;
+}
+
 section {
     padding: 0 1em;
     flex: 1;
 }
 
 main {
+    flex: 3;
     padding: 1em 3em 0 2em;
     box-sizing: border-box;
     height: 100%;
-    flex: 3;
-    /*min-width: 70%;*/
+    /*width: 100%;*/
     max-width: 70%;
     position: relative;
 }
+
+/**********************************************************
+    Messaging Input Section Styling
+***********************************************************/
 
 section .section-container {
     padding: 0.5em 1em 0.5em 2em;
@@ -98,6 +111,16 @@ section .text-box #text-msg {
     letter-spacing: 0.1em;
 }
 
+section .text-box #text-msg::-webkit-scrollbar {
+    background-color: transparent;
+    width: 10px;
+}
+
+section .text-box #text-msg::-webkit-scrollbar-thumb{
+    background-color: rgba(0, 0, 0, 0.747);
+    border-radius: 50px;
+}
+
 section .text-box #send-btn {
     all: unset;
     width: 100%;
@@ -117,7 +140,9 @@ section .text-box #send-btn {
     cursor: pointer;
 }
 
-
+/**********************************************************
+    Messages View Styling
+***********************************************************/
 
 main .message-box {
     padding: 1em;
@@ -160,6 +185,7 @@ main .message-box .card h4 {
     margin-bottom: 0.5em;
 }
 
+
 main .message-box .card p {
     color: #c6cfe4;
     box-sizing: border-box;
@@ -167,9 +193,72 @@ main .message-box .card p {
     font-size: 1rem;
 }
 
-.body-container {
-    display: flex;
-    flex-direction: row-reverse;
-    box-sizing: border-box;
-    height: 80%;
+@media screen and (max-width: 780px) {
+    .body-container {
+        display: block;
+        box-sizing: border-box;
+        justify-content: center;
+        align-items: center;
+    }
+
+    section {
+        padding: 0;
+        /*position: relative;*/
+    }
+
+    main {
+        padding: 1em;
+        box-sizing: border-box;
+        height: 90%;
+        width: 100%;
+        max-width: unset;
+        position: relative;
+    }
+
+    main .msg-box-top {
+        top: -1%;
+    }
+
+    /* Messaging Input Section Styling*/
+    section .section-container {
+        padding: 0 1em 0 1em;
+    }
+
+    section .welcome {
+        display: none;
+    }
+
+    section .text-box {
+        height: fit-content;
+        width: 100%;
+    }
+
+    section .text-box #text-msg {
+        min-height: 10%;
+        min-width: unset;
+        height: 10%;
+        width: 100%;
+        margin-right: 10px;
+    }
+
+    section .text-box .msg-form{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    section .text-box #send-btn{
+        all: unset;
+        width: 100%;
+        margin-top: 0;
+        padding: 1em;
+        text-align: center;
+        background-color: var(--bg-main);
+        border: none;
+        box-sizing: border-box;
+        color: white;
+        box-shadow: none;
+        border-radius: 10px;
+    }
+
 }

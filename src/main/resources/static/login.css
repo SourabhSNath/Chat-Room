@@ -1,0 +1,73 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.container main {
+    background-color: rgba(0, 0, 0, 0.63);
+    padding: 4em 2em;
+    border-radius: 15px;
+    font-family: Roboto, sans-serif;
+    text-align: center;
+    border: 2px solid blueviolet;
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12);
+}
+.container main h1 {
+    margin-bottom: 1em;
+    color: white;
+    overflow: hidden;
+}
+
+.container main h1:after {
+    content: "";
+    margin: 0 20%;
+    display: block;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.658);
+}
+
+.container main .user-name {
+    all: unset;
+    font-family: Lato, sans-serif;
+    color: white;
+    border: 2px solid black;
+    padding: 0.8em 0.5em;
+    border-radius: 10px;
+    margin-right: 1em;
+}
+
+.container main .user-name::placeholder {
+    color: rgba(255, 255, 255, 0.671);
+}
+
+.container main .user-name:focus {
+    border: 2px solid blueviolet;
+}
+.container main .submit-button {
+    all: unset;
+    background-color: blueviolet;
+    margin-top: 1em;
+    padding: 0.8em 2em;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072);
+}

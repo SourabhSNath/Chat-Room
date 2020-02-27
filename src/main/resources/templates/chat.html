@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script th:src="@{webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/chat.css}"/>
+    <title>The Chat Room</title>
+</head>
+
+<body>
+
+<div class="header-container">
+    <header>
+        <h3>The Chat Room</h3>
+        <a th:href="@{/}">Logout</a>
+    </header>
+</div>
+<!--  -->
+<div class="body-container">
+
+    <main>
+        <div class="message-box">
+            <!-- Message Cards would appear here -->
+        </div>
+
+        <div class="msg-box-top">
+            <h4 style="display: inline-block">Currently Online:</h4>
+            <h4 style="display:inline-block;" class="online-count"></h4>
+        </div>
+    </main>
+    <!--  -->
+
+    <section>
+        <div class="section-container">
+            <div class="welcome">
+                <h1 style="display: inline-block">Welcome, </h1>
+                <h1 style="display: inline-block" id="username" th:text="${username}"></h1>
+            </div>
+            <div class="text-box">
+
+                <form class="msg-form">
+                    <!--suppress HtmlFormInputWithoutLabel -->
+                    <textarea rows="10" cols="60" name="text-msg" id="text-msg" placeholder="Type a message"
+                              autocomplete="false">
+                    </textarea>
+                    <div class="send-btn">
+                        <input type="submit" value="Send" name="send-btn" id="send-btn"/>
+<!--                        <button name="send-btn" id="send-btn" onclick="sendMsgToServer()">Send</button>-->
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<script th:inline="javascript">
+
+    document.getElementById("text-msg").defaultValue = "";
+
+    /**
+     * WebSocket Client
+     *
+     * 1、WebSocket client receive messages with callback. example：webSocket.onmessage
+     * 2、WebSocket client send message to server. example：webSocket.send();
+     */
+    function getWebSocket() {
+        /**
+         * WebSocket client PS：URL shows WebSocket protocol, port number, and then end point.
+         */
+        let webSocket = new WebSocket('ws://localhost:9090/chat/' + [[${username}]]);
+
+        /**
+         * websocket open connection.
+         */
+        webSocket.onopen = function (event) {
+            console.log('WebSocket open connection' + event);
+        };
+
+        /**
+         * Server send 1) broadcast message, 2) online users.
+         */
+        webSocket.onmessage = function (event) {
+            console.log('WebSocket Receives：%c' + event.data, 'color:green');
+            messageCounter = messageCounter + 1;
+
+            //Receive Message from Server
+            let messageData = JSON.parse(event.data) || {};
+            let $messageContainer = $('.message-box');
+
+            $messageContainer.append(
+                '<div class="card" id="card">' +
+                '<h4>' + messageData.userName + '</h4>' +
+                '<p>' + messageData.message + '</p>' +
+                '</div>');
+
+            if (messageData.type === 'ENTER' || messageData.type === 'LEAVE') {
+                $('.online-count').text(messageData.onlineCount);
+            }
+
+            // Auto Scroll to the bottom when new message is added
+            $messageContainer.scrollTop($messageContainer.prop("scrollHeight"));
+
+        };
+
+        /**
+         * Close connection
+         */
+        webSocket.onclose = function (event) {
+            console.log('WebSocket close connection.' + event);
+        };
+
+        /**
+         * Exception
+         */
+        webSocket.onerror = function (event) {
+            console.log('WebSocket exception.' + event);
+        };
+        return webSocket;
+    }
+
+    let messageCounter = 0;
+    let webSocket = getWebSocket();
+
+
+    /**
+     * Send messages to server use webSocket.
+     */
+    function sendMsgToServer() {
+        let $message = $('#text-msg');
+        console.log($message.val());
+
+        if ($message.val()) {
+            webSocket.send(JSON.stringify({
+                userName: $('#username').text(),
+                message: $.trim($message.val()),
+                type: "CHAT",
+                onlineCount: 0
+            }));
+            $message.val(null);
+        }
+
+    }
+
+    $('.msg-form').submit(function (e) {
+        e.preventDefault();
+        sendMsgToServer();
+    });
+
+
+    /**
+     * Enter to send message.
+     */
+    document.onkeydown = function (e) {
+        if(e.key === 'Enter' && e.shiftKey){
+            sendMsgToServer();
+        }
+
+    };
+
+</script>
+
+
+</body>
+
+</html>

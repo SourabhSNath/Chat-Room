@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script th:src="@{webjars/jquery/3.4.1/jquery.min.js}"></script>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/login.css}"/>
+    <title>Login</title>
+</head>
+
+<body>
+<div class="container">
+    <main>
+        <div>
+            <h1>The Chat Room</h1>
+        </div>
+        <form id="login-form" th:action="@{/index}">
+            <input type="text" id="username" name="username" class="user-name" placeholder="Enter User Name"/>
+            <input type="submit" id="submit-button" class="submit-button" value="Login"/>
+        </form>
+    </main>
+</div>
+
+<script>
+
+    $("#login-form").submit(function (e) {
+        if ($.trim($("#username").val()) === "") {
+            alert("Please enter the User name");
+            e.preventDefault();
+        }
+    });
+
+</script>
+</body>
+
+</html>
